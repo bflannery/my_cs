@@ -127,16 +127,3 @@ def luhn_sum_double(n):
         return luhn_digit
     else:
         return luhn_sum(all_but_last) + luhn_digit
-
-
-def sum_lst(lst):
-    if lst == []:
-        return 0
-    return lst.pop() + sum_lst(lst)
-
-
-def comprehension(lst, f, pred):
-    if lst == []:
-      return []
-    first = [f(lst[0])] if pred(lst[0]) else []
-    return first + comprehension(lst[1:], f, pred)

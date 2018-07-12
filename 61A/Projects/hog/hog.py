@@ -274,19 +274,19 @@ def max_scoring_num_rolls(dice=six_sided, num_samples=10):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
-    n = 1
-    highest_roll = 0
-    highest_avg_dice = 0
-    while n <= 10:
-        roll_dice_result = roll_dice(num_samples, dice)
-        print('roll dice results', roll_dice_result)
-        make_averaged_results = make_averaged(dice, roll_dice_result)()
-        if make_averaged_results > highest_avg_dice:
-            highest_avg_dice = make_averaged_results
-            highest_roll = n
-        print('highest_avg_dice', highest_avg_dice)
-        n += 1
-    return highest_roll
+    k, score = 1, 0
+    current_max = 0
+    while k <= 10:
+        num_rolls = k
+        last_score = score
+        score = make_averaged(roll_dice, num_samples=10000)(num_rolls, dice)
+        # print (k, "dice scores", score, "on average")
+        k = k + 1
+        current_max = max(score, current_max)
+        if score >= current_max:
+            current_max = score
+            maxstep = k - 1
+    return maxstep
     # END PROBLEM 9
 
 
@@ -311,14 +311,14 @@ def average_win_rate(strategy, baseline=always_roll(4)):
 
 def run_experiments():
     """Run a series of strategy experiments and report results."""
-    if True:  # Change to False when done finding max_scoring_num_rolls
+    if False:  # Change to False when done finding max_scoring_num_rolls
         six_sided_max = max_scoring_num_rolls(six_sided)
         print('Max scoring num rolls for six-sided dice:', six_sided_max)
 
     if False:  # Change to True to test always_roll(8)
         print('always_roll(8) win rate:', average_win_rate(always_roll(8)))
 
-    if False:  # Change to True to test bacon_strategy
+    if True:  # Change to True to test bacon_strategy
         print('bacon_strategy win rate:', average_win_rate(bacon_strategy))
 
     if False:  # Change to True to test swap_strategy
