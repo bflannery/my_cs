@@ -4,6 +4,7 @@ HW_SOURCE_FILE = 'hw03.py'
 # Questions #
 #############
 
+
 def has_seven(k):
     """Returns True if at least one of the digits of k is a 7, False otherwise.
 
@@ -25,6 +26,15 @@ def has_seven(k):
     True
     """
     "*** YOUR CODE HERE ***"
+    if k % 10 == 7:
+        return True
+    elif k % 10 == 0:
+        return False
+    elif k // 10 == 0:
+        return False
+    else:
+        return has_seven(k // 10)
+
 
 def summation(n, term):
 
@@ -45,6 +55,12 @@ def summation(n, term):
     """
     assert n >= 1
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        return term(1)
+    else:
+        return term(n) + summation(n-1, term)
+
+
 
 def square(x):
     return x * x
@@ -77,6 +93,11 @@ def accumulate(combiner, base, n, term):
     72
     """
     "*** YOUR CODE HERE ***"
+    total, k = base, 1
+    while k <= n:
+        total, k = combiner(total, term(k)), k + 1
+    return total
+
 
 def summation_using_accumulate(n, term):
     """Returns the sum of term(1) + ... + term(n). The implementation
@@ -92,6 +113,8 @@ def summation_using_accumulate(n, term):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(add, 0, n, term)
+
 
 def product_using_accumulate(n, term):
     """An implementation of product using accumulate.
@@ -106,6 +129,7 @@ def product_using_accumulate(n, term):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(mul, 1, n, term)
 
 def filtered_accumulate(combiner, base, pred, n, term):
     """Return the result of combining the terms in a sequence of N terms
@@ -132,6 +156,10 @@ def filtered_accumulate(combiner, base, pred, n, term):
     """
     def combine_if(x, y):
         "*** YOUR CODE HERE ***"
+        if pred(y):
+            return combiner(x, y)
+        else:
+            return x
     return accumulate(combine_if, base, n, term)
 
 def odd(x):
@@ -156,12 +184,21 @@ def make_repeater(f, n):
     5
     """
     "*** YOUR CODE HERE ***"
+    def h(x):
+        y = 0
+        while y < n:
+            x, y = f(x), y + 1
+        return x
+    return h
+
 
 def compose1(f, g):
     """Return a function h, such that h(x) = f(g(x))."""
     def h(x):
         return f(g(x))
     return h
+
+
 
 ###################
 # Extra Questions #
