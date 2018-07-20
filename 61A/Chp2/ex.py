@@ -94,9 +94,8 @@ def sum_of_divisors(n):
 def perfect(n):
     return sum_of_divisors(n) == n
 
+
 # TREES
-
-
 def tree(root_label, branches=[]):
     for branch in branches:
         assert is_tree(branch), 'branches must be trees'

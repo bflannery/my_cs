@@ -1,6 +1,7 @@
 from operator import floordiv, mod
 from math import pi, sqrt
 
+
 def find_zero(f, df):
     def near_zero(x):
         return approx_eq(f(x), 0)
