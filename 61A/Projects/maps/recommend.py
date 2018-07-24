@@ -109,13 +109,15 @@ def find_predictor(user, restaurants, feature_fn):
     xs = [feature_fn(r) for r in restaurants]
     ys = [reviews_by_user[restaurant_name(r)] for r in restaurants]
 
-    # BEGIN Question 7
-    b, a, r_squared = 0, 0, 0  # REPLACE THIS LINE WITH YOUR SOLUTION
-    # END Question 7
+    xx = sum([pow(xi - mean(xs), 2) for xi in xs])
+    yy = sum([pow(yi - mean(ys), 2) for yi in ys])
+    xy = sum([(xi - mean(xs)) * (yi - mean(ys)) for xi, yi in zip(xs, ys)])
+
+    b = xy / xx
+    a, r_squared = mean(ys) - b * mean(xs), pow(xy, 2) / (xx * yy)
 
     def predictor(restaurant):
         return b * feature_fn(restaurant) + a
-
     return predictor, r_squared
 
 
@@ -131,6 +133,9 @@ def best_predictor(user, restaurants, feature_fns):
     reviewed = user_reviewed_restaurants(user, restaurants)
     # BEGIN Question 8
     "*** YOUR CODE HERE ***"
+    predicators = [find_predictor(user, reviewed, fn) for fn in feature_fns]
+    pred_r_square = {pred: r_square for pred, r_square in predicators}
+    return max(pred_r_square, key=lambda pred: pred_r_square[pred])
     # END Question 8
 
 
@@ -145,8 +150,27 @@ def rate_all(user, restaurants, feature_fns):
     """
     predictor = best_predictor(user, ALL_RESTAURANTS, feature_fns)
     reviewed = user_reviewed_restaurants(user, restaurants)
+
     # BEGIN Question 9
     "*** YOUR CODE HERE ***"
+    # print('user', user)
+    # print('____________')
+    # print('feature_fns', feature_fns)
+    # print('____________')
+    # print('predictor', predictor)
+    # print('____________')
+    # print('reviewed', reviewed)
+    # print('____________')
+    # print('restaurants', restaurants)
+
+    user_restaurant_reviews = []
+    for r in restaurants:
+        if r not in reviewed:
+            rating = (predictor(r))
+        else:
+            rating = int(user_rating(user, restaurant_name(r)))
+        user_restaurant_reviews.append((restaurant_name(r), rating))
+    return dict(user_restaurant_reviews)
     # END Question 9
 
 
@@ -159,6 +183,7 @@ def search(query, restaurants):
     """
     # BEGIN Question 10
     "*** YOUR CODE HERE ***"
+    return [r for r in restaurants if query in restaurant_categories(r)]
     # END Question 10
 
 
@@ -225,3 +250,4 @@ def main(*args):
     else:
         centroids = [restaurant_location(r) for r in restaurants]
     draw_map(centroids, restaurants, ratings)
+
