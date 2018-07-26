@@ -1,5 +1,6 @@
 HW_SOURCE_FILE = 'hw03.py'
 
+
 #############
 # Questions #
 #############
@@ -37,7 +38,6 @@ def has_seven(k):
 
 
 def summation(n, term):
-
     """Return the sum of the first n terms in the sequence defined by term.
     Implement using recursion!
 
@@ -58,15 +58,16 @@ def summation(n, term):
     if n == 1:
         return term(1)
     else:
-        return term(n) + summation(n-1, term)
-
+        return term(n) + summation(n - 1, term)
 
 
 def square(x):
     return x * x
 
+
 def identity(x):
     return x
+
 
 triple = lambda x: 3 * x
 
@@ -75,6 +76,7 @@ increment = lambda x: x + 1
 add = lambda x, y: x + y
 
 mul = lambda x, y: x * y
+
 
 def accumulate(combiner, base, n, term):
     """Return the result of combining the first n terms in a sequence and base.
@@ -131,6 +133,7 @@ def product_using_accumulate(n, term):
     "*** YOUR CODE HERE ***"
     return accumulate(mul, 1, n, term)
 
+
 def filtered_accumulate(combiner, base, pred, n, term):
     """Return the result of combining the terms in a sequence of N terms
     that satisfy the predicate pred. combiner is a two-argument function.
@@ -154,19 +157,24 @@ def filtered_accumulate(combiner, base, pred, n, term):
     ...       ['While', 'For', 'Recursion'])
     True
     """
+
     def combine_if(x, y):
         "*** YOUR CODE HERE ***"
         if pred(y):
             return combiner(x, y)
         else:
             return x
+
     return accumulate(combine_if, base, n, term)
+
 
 def odd(x):
     return x % 2 == 1
 
+
 def greater_than_5(x):
     return x > 5
+
 
 def make_repeater(f, n):
     """Return the function that computes the nth application of f.
@@ -184,20 +192,23 @@ def make_repeater(f, n):
     5
     """
     "*** YOUR CODE HERE ***"
+
     def h(x):
         y = 0
         while y < n:
             x, y = f(x), y + 1
         return x
+
     return h
 
 
 def compose1(f, g):
     """Return a function h, such that h(x) = f(g(x))."""
+
     def h(x):
         return f(g(x))
-    return h
 
+    return h
 
 
 ###################
@@ -208,21 +219,27 @@ quine = """
 "*** YOUR CODE HERE ***"
 """
 
+
 def zero(f):
     return lambda x: x
 
+
 def successor(n):
     return lambda f: lambda x: f(n(f)(x))
+
 
 def one(f):
     """Church numeral 1: same as successor(zero)"""
     "*** YOUR CODE HERE ***"
 
+
 def two(f):
     """Church numeral 2: same as successor(successor(zero))"""
     "*** YOUR CODE HERE ***"
 
+
 three = successor(two)
+
 
 def church_to_int(n):
     """Convert the Church numeral n to a Python integer.
@@ -238,6 +255,7 @@ def church_to_int(n):
     """
     "*** YOUR CODE HERE ***"
 
+
 def add_church(m, n):
     """Return the Church numeral for m + n, for Church numerals m and n.
 
@@ -245,6 +263,7 @@ def add_church(m, n):
     5
     """
     "*** YOUR CODE HERE ***"
+
 
 def mul_church(m, n):
     """Return the Church numeral for m * n, for Church numerals m and n.
@@ -256,6 +275,7 @@ def mul_church(m, n):
     12
     """
     "*** YOUR CODE HERE ***"
+
 
 def pow_church(m, n):
     """Return the Church numeral m ** n, for Church numerals m and n.

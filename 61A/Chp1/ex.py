@@ -128,3 +128,23 @@ def luhn_sum_double(n):
         return luhn_digit
     else:
         return luhn_sum(all_but_last) + luhn_digit
+
+
+def is_sorted(n):
+    """
+    >>> is_sorted(2)
+    True
+    >>> is_sorted(22222)
+    True
+    >>> is_sorted(9876543210)
+    True
+    >>> is_sorted(9087654321)
+    False
+    """
+    first, rest = split(n)
+    last_number = 0
+    if n < 10:
+        return True if last_number < n else False
+    else:
+        first, rest = split(n)
+        return is_sorted(rest) > first
