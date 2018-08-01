@@ -56,6 +56,15 @@ def acorn_finder(t):
     False
     """
     "*** YOUR CODE HERE ***"
+    if label(t) == 'acorn':
+            return True
+    else:
+        for branch in branches(t):
+            if acorn_finder(branch):
+                return True
+        return False
+
+
 
 
 # Q4
@@ -88,8 +97,19 @@ def replace_leaf(t, old, new):
     >>> laerad == yggdrasil # Make sure original tree is unmodified
     True
     """
-    "*** YOUR CODE HERE ***"
+    print('t', t)
+    print('old', old)
+    print('new', new)
 
+    "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        if label(t) == old:
+            return tree(new)
+        else:
+            return t
+    else:
+        sticks = [replace_leaf(b, old, new) for b in branches(t)]
+        return tree(label(t), sticks)
 
 # Tree ADT
 def tree(label, branches=[]):
